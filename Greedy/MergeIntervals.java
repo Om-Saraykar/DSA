@@ -6,25 +6,17 @@ public class MergeIntervals {
 
     class Solution {
         public int[][] merge(int[][] intervals) {
-            Arrays.sort(intervals, new Comparator<int[]>() {
-
-                @Override
-                public int compare(int[] o1, int[] o2) {
-                    // TODO Auto-generated method stub
-                    return o1[0] - o2[0];
-                }
-
-            });
+            Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
 
             List<int[]> ans = new ArrayList<>();
 
             for (int[] interval : intervals) {
-                if (ans.isEmpty() || ans.get(ans.size() - 1)[1] < interval[0]) {
+                if (ans.isEmpty() || ans.getLast()[1] < interval[0]) {
                     ans.add(interval);
                 } else {
                     int[] newInterval = new int[2];
-                    newInterval[0] = ans.get(ans.size() - 1)[0];
-                    newInterval[1] = Math.max(ans.get(ans.size() - 1)[1], interval[1]);
+                    newInterval[0] = ans.getLast()[0];
+                    newInterval[1] = Math.max(ans.getLast()[1], interval[1]);
                     ans.set(ans.size() - 1, newInterval);
                 }
             }
